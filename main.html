@@ -15,7 +15,8 @@
                 <h3 class="artists">Artists</h3>
             </div>
             <div class="info-progress">
-                <input type="range" class="progress-bar">
+                <input type="range" class="progress-bar" min="0" max="100" value="0">
+                <!-- <input type="range" class="progress-bar-x" min="0" max="100" value="0"> -->
                 <span class="timer">Loading...</span>
             </div>
             <div class="app-btns">
@@ -27,13 +28,15 @@
         </div>
         <div class="app-menus">
             <div class="menus">
-                <a href="javascript:;" class="toggle">More</a>
-                <div class="volume">
-                    <input type="range" class="volume-bar">
+                <a href="javascript:;" class="fa toggle"><span>More</span></a>
+                <div class="mask"></div>
+                <div class="inner">
+                    XXXXX
                 </div>
             </div>
-            <div class="inner">
-                XXXXX
+            <div class="volume">
+                <i class="fa icon"></i>
+                <input type="range" class="volume-bar" min="0" max="100" value="80">
             </div>
         </div>
     </div>

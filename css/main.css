@@ -11,6 +11,13 @@ body{
     color: #111;
     font:14px/1.5 Arial,Helvetica,"Microsoft Yahei";
 }
+a{
+    color: #333;
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: none;
+}
 
 .fa{
     display: inline-block;
@@ -66,19 +73,31 @@ body{
     margin-bottom: 8px;
 }
 .app-info h3{
-    font-size: 16px;
+    font-size: 14px;
 }
 
 /* info-progress */
 .info-progress{
-    padding: 20px 0 5px;
+    padding: 35px 0 5px;
 }
 .info-progress input{
     display: block;
     box-sizing: border-box;
     width: 100%;
-    /*-webkit-appearance: slider-vertical;*/
 }
+.info-progress .progress-bar-x{
+    -webkit-appearance: none;
+}
+/*.info-progress .progress-bar-x[type="range"]::-webkit-slider-runnable-track{
+    background: #FFF;
+    background: linear-gradient(to bottom, #AAA 0%, #CDCDCD 100%);
+    border: 1px solid #747474;
+    border-color: #747474 #939393 #AEAEAE;
+    border-radius: 5px;
+    height: 5px;
+    position: relative;
+    top: 6px;
+}*/
 .info-progress .timer{
     display: block;
     color: #414141;
@@ -90,7 +109,7 @@ body{
 .app-btns{
     position: absolute;
     bottom: 20px;
-    right: 20px;
+    right: 15px;
 }
 .app-btns a{
     float: right;
@@ -99,11 +118,9 @@ body{
     margin-left: 15px;
     padding: 5px 10px;
     vertical-align: top;
-    text-decoration: none;
 }
 .app-btns a:hover{
     color: #333;
-    text-decoration: none;
 }
 .app-btns a.actived{
     color: #F10621;
@@ -129,9 +146,81 @@ body{
 
 /* app-menus */
 .app-menus{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.app-menus .volume,
+.app-menus .menus .toggle,
+.app-menus .menus .toggle + .mask{
+    background: #FFF;
+    border-radius: 24px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .24);
+    height: 24px;
+    width: 24px;
+    overflow: hidden;
+    position: absolute;
+    right: 20px;
+    top: 48px;
+    text-align: center;
+    transition: all ease .2s;
+}
+.app-menus .volume:hover{
+    box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+    height: 80px;
+}
+.app-menus .volume .icon:before,
+.app-menus .menus .toggle:before{
+    content: "\f027";
+    color: #414141;
+    font-size: 15px;
+    line-height: 24px;
+    vertical-align: top;
+}
+.app-menus .volume input{
+    height: 50px;
+    width: 100%;
+    vertical-align: top;
+    -webkit-appearance: slider-vertical;
+}
+.app-menus .menus .toggle{
+    background: none;
+    box-shadow: none;
+    color: #414141;
+    top: 12px;
+    z-index: 3;
+}
+.app-menus .menus .toggle:before{
+    content: "\f078";
+}
+.app-menus .menus .toggle + .mask{
+    content: "";
+    top: 12px;
+    z-index: 1;
+    transform: translateZ(0);
+}
+.app-menus .menus .toggle:hover + .mask{
+    box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+    animation: mask 2s ease infinite;
+}
+.app-menus .menus .toggle span{
     display: none;
 }
+.app-menus .menus .inner{
+    position: absolute;
+}
 
+@keyframes mask{
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.06);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
 
 
 
