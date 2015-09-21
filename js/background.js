@@ -11,10 +11,10 @@
 
 	chrome.app.runtime.onLaunched.addListener(function() {
 		chrome.app.window.create('main.html', {
-			'bounds': {
-				'width': 520,
-				'height': 240
-			}
+			id: 'app-main',
+			resizable: false,
+			height: 240,
+			width: 520
 		});
 	});
 
