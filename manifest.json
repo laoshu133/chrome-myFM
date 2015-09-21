@@ -1,0 +1,23 @@
+{
+	"manifest_version": 2,
+	"version": "0.0.1",
+	"name": "myFM",
+	"description": "A FM raido base on douban.fm",
+	"icons": {
+	},
+	"permissions": [ "*://*/*" ],
+	"app": {
+		"background": {
+			"scripts": [ "js/ds.js", "js/background.js" ]
+		}
+	},
+	"commands": {
+		"test_hot_key": {
+			"suggested_key": {
+				"default": "MediaPlayPause"
+			},
+			"description": "Test hot key222",
+			"global": true
+		}
+	}
+}

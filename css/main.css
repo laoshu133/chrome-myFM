@@ -1,0 +1,150 @@
+/**
+ * chrome-myFM
+ *
+ */
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: #FFF;
+    color: #111;
+    font:14px/1.5 Arial,Helvetica,"Microsoft Yahei";
+}
+
+.fa{
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.33em;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* page-app */
+.page-app{
+    height: 240px;
+    position: relative;
+}
+
+/* app-pic */
+.app-pic{
+    height: 100%;
+    width: 240px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.app-pic a{
+    display: block;
+    background: url(img/disk.png) no-repeat 50% 50%;
+    background-size: cover;
+    height: 100%;
+}
+
+/* app-info */
+.app-info{
+    margin-left: 240px;
+    padding: 30px 20px 0;
+}
+.app-info h1,
+.app-info h2,
+.app-info h3{
+    font-weight: normal;
+    line-height: 1.2;
+    margin: 0;
+}
+.app-info h1{
+    color: #2AA751;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.app-info h2{
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+.app-info h3{
+    font-size: 16px;
+}
+
+/* info-progress */
+.info-progress{
+    padding: 20px 0 5px;
+}
+.info-progress input{
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    /*-webkit-appearance: slider-vertical;*/
+}
+.info-progress .timer{
+    display: block;
+    color: #414141;
+    font-size: 12px;
+    text-align: right;
+}
+
+/* app-btns */
+.app-btns{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+.app-btns a{
+    float: right;
+    color: #414141;
+    font-size: 25px;
+    margin-left: 15px;
+    padding: 5px 10px;
+    vertical-align: top;
+    text-decoration: none;
+}
+.app-btns a:hover{
+    color: #333;
+    text-decoration: none;
+}
+.app-btns a.actived{
+    color: #F10621;
+}
+.app-btns a span{
+    display: none;
+}
+.app-btns .next:before{
+    content: "\f050";
+}
+.app-btns .play:before{
+    content: "\f04b";
+}
+.app-btns .pause:before{
+    content: "\f04c";
+}
+.app-btns .love:before{
+    content: "\f004";
+}
+.app-btns .del:before{
+    content: "\f014";
+}
+
+/* app-menus */
+.app-menus{
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('fonts/fontawesome-webfont.woff?v=4.1.0');
+  font-weight: normal;
+  font-style: normal;
+}
