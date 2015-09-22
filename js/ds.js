@@ -229,6 +229,9 @@
                     xhr.setRequestHeader('Pragma', 'no-cache');
                 }
 
+                // promise
+                var df = Promise.defer();
+
                 xhr.onload = function() {
                     var status = 'success';
                     var ret = xhr.responseText;
@@ -253,18 +256,43 @@
 
                     if(status !== 'success') {
                         ops.error(status, xhr);
+
+                        df.reject(status, xhr);
                     }
                     else {
                         ops.success(ret, xhr);
+
+                        df.resolve(ret, xhr);
                     }
                 };
                 xhr.onerror = function() {
                     var status = xhr.statusText || 'error';
                     ops.error(status, xhr);
+
+                    df.reject(status, xhr);
                 };
 
                 xhr.send(ops.data);
-                return xhr;
+
+                var promise = df.promise;
+
+                promise.xhr = xhr;
+                return promise;
+            },
+            get: function(url, data, callback, dataType) {
+                // shift arguments if data argument was omitted
+                if(typeof  data === 'function') {
+                    dataType = dataType || callback;
+                    callback = data;
+                    data = undefined;
+                }
+
+                return this.ajax({
+                    url: url,
+                    data: data,
+                    success: callback,
+                    dataType: dataType,
+                });
             }
         };
 
@@ -427,6 +455,19 @@
             });
         }
     });
+
+    // shim
+    ds.mix((function() {
+        return {
+            hackPromise: function() {
+                Promise.prototype.always = function(callback) {
+                    return this.then(callback, callback);
+                };
+            }
+        };
+    })());
+
+    ds.hackPromise();
 
     global.ds =ds;
 })(this);

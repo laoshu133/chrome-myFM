@@ -7,8 +7,6 @@
 ;(function(global) {
 	var ds = global.ds;
 
-	console.log(111);
-
 	chrome.app.runtime.onLaunched.addListener(function() {
 		chrome.app.window.create('main.html', {
 			id: 'app-main',
@@ -18,16 +16,10 @@
 		});
 	});
 
-	chrome.commands.onCommand.addListener(function() {
-		console.log('xxx', arguments);
+	// chrome.commands.onCommand.addListener(function() {
+	// 	console.log('xxx', arguments);
 
-		return false;
-	});
-
-	console.log('chrome.permissions', chrome.permissions);
-
-	chrome.system.network.getNetworkInterfaces(function() {
-		console.log('sss', arguments);
-	});
+	// 	return false;
+	// });
 
 })(this);

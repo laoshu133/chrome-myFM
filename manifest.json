@@ -8,7 +8,7 @@
 	"permissions": [ "*://*/*" ],
 	"app": {
 		"background": {
-			"scripts": [ "js/ds.js", "js/background.js" ]
+			"scripts": [ "js/ds.js", "js/background.js", "js/list.js", "js/main.js" ]
 		}
 	},
 	"commands": {
