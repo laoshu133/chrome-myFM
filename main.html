@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>myFM - laoshu133.com</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div class="page-app">
+    <div class="page-app" id="J_app">
         <div class="app-pic"><a href="###"></a></div>
         <div class="app-info">
             <div class="info-main">
@@ -20,18 +21,27 @@
                 <span class="timer">Loading...</span>
             </div>
             <div class="app-btns">
-                <a href="javascript:;" class="fa next"><span>Next</span></a>
-                <a href="javascript:;" class="fa play"><span>Play/Pause</span></a>
-                <a href="javascript:;" class="fa love"><span>Love</span></a>
-                <a href="javascript:;" class="fa del"><span>Delete</span></a>
+                <a href="#" class="fa next"><span>Next</span></a>
+                <a href="#" class="fa play"><span>Play/Pause</span></a>
+                <a href="#" class="fa love"><span>Love</span></a>
+                <a href="#" class="fa del"><span>Delete</span></a>
             </div>
         </div>
         <div class="app-menus">
-            <div class="menus">
-                <a href="javascript:;" class="fa toggle"><span>More</span></a>
+            <div class="menus" v-bind:class="{'is-active':menuActived}">
+                <a href="#" class="fa toggle" v-on:click="menuActived=!menuActived"><span>More</span></a>
                 <div class="mask"></div>
                 <div class="inner">
-                    XXXXX
+                    <div class="channel-list">
+                        <ul>
+                            <li v-for="item in player.list.channels">
+                                <span
+                                    v-bind:class="{'current':item==player.currChannel}"
+                                    v-on:click="player.setChannel(item)"
+                                >{{item.name}}</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="volume">
@@ -41,9 +51,11 @@
         </div>
     </div>
 
+    <script src="js/vue.js"></script>
     <script src="js/ds.js"></script>
-    <script src="js/digger.js"></script>
+    <script src="js/user.js"></script>
     <script src="js/list.js"></script>
+    <script src="js/digger.js"></script>
     <script src="js/player.js"></script>
     <script src="js/main.js"></script>
 </body>

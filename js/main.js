@@ -3,16 +3,54 @@
  *
  */
 
-(function() {
-    var playList = new List();
+(function(global) {
+    var app = global.app = {
+        init: function() {
+            this.initPlayer();
+            this.initVM();
+        },
+        vm: null,
+        initVM: function(data) {
+            Vue.config.debug = true;
 
-    console.log(playList.channels);
+            data = ds.mix({
+                menuActived: false,
+                player: this.player,
+                currChannel: null,
+                channels: []
+            }, data);
 
-    playList.loadChannels()
-    .always(function() {
-        console.log(arguments);
-        console.log(playList.channels);
-    });
+            var vm = this.vm = new Vue({
+                el: '#J_app',
+                data: data
+            });
+        },
+        player: null,
+        initPlayer: function() {
+            this.player = new Player();
+
+            return;
 
 
-})();
+            var self = this;
+
+
+            var list = new List();
+
+            console.log(list.channels);
+
+            list.loadChannels()
+            .always(function() {
+                console.log(arguments);
+                console.log(list.channels);
+
+
+            });
+        },
+        setChannels: function(channels) {
+
+        }
+    };
+
+    app.init();
+})(this);

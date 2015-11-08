@@ -23,6 +23,42 @@
         }
     };
 
+    // Utils
+    ds.mix({
+        extend: function(target, source) {
+            if(typeof source !== 'object') {
+                source = target;
+                target = this;
+            }
+            return this.mix(target, source, true);
+        },
+        fill: function(tmpl, data) {
+            for(var k in data) {
+                tmpl = tmpl.replace(new RegExp('\\{'+ k +'\\}', 'g'), data[k]);
+            }
+            return tmpl;
+        },
+        storage: function(key, val) {
+            var isSet = val && typeof val !== 'function';
+            var method = isSet ? 'set' : 'get';
+            var df = Promise.defer();
+
+            var data = {};
+            if(isSet) {
+                data[key] = val;
+            }
+            else {
+                data = key;
+            }
+
+            chrome.storage.sync[method](data, function(res) {
+                df.resolve(res ? res[key] : undefined);
+            });
+
+            return df.promise;
+        }
+    });
+
     // Event
     ds.mix((function() {
         var _id = 0;

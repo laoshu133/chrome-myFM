@@ -5,7 +5,7 @@
 	"description": "A FM raido base on douban.fm",
 	"icons": {
 	},
-	"permissions": [ "*://*/*" ],
+	"permissions": [ "*://*/*", "storage" ],
 	"app": {
 		"background": {
 			"scripts": [ "js/ds.js", "js/background.js", "js/list.js", "js/main.js" ]
