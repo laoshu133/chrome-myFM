@@ -8,6 +8,8 @@
         init: function() {
             this.initPlayer();
             this.initVM();
+
+            this.player.play();
         },
         vm: null,
         initVM: function(data) {

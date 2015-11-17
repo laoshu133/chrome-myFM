@@ -239,6 +239,24 @@
     // ajax
     ds.mix((function() {
         var tools = {
+            param: function(data) {
+                if(!data) {
+                    return '';
+                }
+
+                var tmp, ret = [];
+                for(var k in data) {
+                    if(typeof data[k] !== 'function') {
+                        tmp = encodeURIComponent(k);
+                        tmp += '=';
+                        tmp += encodeURIComponent(data[k]);
+
+                        ret.push(tmp);
+                    }
+                }
+
+                return ret.join('&');
+            },
             ajax: function(ops) {
                 if(typeof ops === 'string') {
                     ops = {
@@ -251,16 +269,32 @@
                     data: null,
                     type: 'get',
                     cache: true,
-                    dataType: 'string',
+                    dataType: 'auto',
                     success: this.noop,
                     error: this.noop
                 });
                 ops.type = ops.type.toUpperCase();
 
-                var xhr = new XMLHttpRequest();
-                xhr.open(ops.type, ops.url, true);
+                // params
+                var url = ops.url;
+                var type = ops.type;
+                var data = ops.data;
+                if(type === 'GET' && data) {
+                    data = this.param(data);
 
-                if(ops.type === 'GET' && !ops.cache) {
+                    if(data) {
+                        url += url.indexOf('?') > -1 ? '&' : '?';
+                        url += data;
+                    }
+
+                    data = null;
+                }
+
+                // xhr
+                var xhr = new XMLHttpRequest();
+                xhr.open(type, url, true);
+
+                if(type === 'GET' && !ops.cache) {
                     xhr.setRequestHeader('Cache-Control', 'no-cache');
                     xhr.setRequestHeader('Pragma', 'no-cache');
                 }
@@ -276,11 +310,21 @@
                     if(statusCode >= 200 && statusCode < 300 ||
                         statusCode === 304
                     ) {
-                        if(ops.type === 'json') {
+                        var dataType = ops.dataType;
+                        if(dataType === 'auto') {
+                            var resType = (xhr.getResponseHeader('content-type') || '').toLowerCase();
+                            if(resType.indexOf('json') > -1) {
+                                dataType = 'json';
+                            }
+                        }
+
+                        if(dataType === 'json') {
                             try {
                                 ret = JSON.parse(ret);
                             }
-                            catch(_) {
+                            catch(ex) {
+                                console.error(ex);
+
                                 status = 'parseerror';
                                 ret = null;
                             }
@@ -308,7 +352,7 @@
                     df.reject(status, xhr);
                 };
 
-                xhr.send(ops.data);
+                xhr.send(data);
 
                 var promise = df.promise;
 
@@ -317,7 +361,7 @@
             },
             get: function(url, data, callback, dataType) {
                 // shift arguments if data argument was omitted
-                if(typeof  data === 'function') {
+                if(typeof data === 'function') {
                     dataType = dataType || callback;
                     callback = data;
                     data = undefined;
@@ -327,7 +371,7 @@
                     url: url,
                     data: data,
                     success: callback,
-                    dataType: dataType,
+                    dataType: dataType
                 });
             }
         };

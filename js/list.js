@@ -67,6 +67,8 @@
 
             this.loadLocalChannels();
             this.loadChannels();
+
+            this.setChannel();
         },
         addChannel: function(channel, cover) {
             var channels = this.channels;
@@ -96,6 +98,25 @@
 
             return cacheChannel;
         },
+        currChannel: null,
+        setChannel: function(channel) {
+            var self = this;
+
+            if(channel) {
+                this.addChannel(channel);
+
+                this.channels.forEach(function(item) {
+                    if(item.id === channel.id) {
+                        self.currChannel = item;
+                    }
+                });
+            }
+            else {
+                this.currChannel = this.channels[0];
+            }
+
+            return this.currChannel;
+        },
         loadChannels: function() {
             var self = this;
             var rChannels = /(hot|fast)_channels_json\s*=\s*(\[[\s\S]+?\]);/g;
@@ -106,12 +127,9 @@
                     var items = JSON.parse(json);
 
                     items.forEach(function(item) {
-                        console.log('ss', arguments[1], item.id, item.name);
                         self.addChannel(item, true);
                     });
                 });
-
-                console.log(self.channelsMap);
 
                 self.saveLocalChannels();
 
@@ -148,6 +166,59 @@
             // var data = JSON.stringify(this.channels);
 
             ds.storage(key, data);
+        },
+        queue: [],
+        next: function() {
+            var queue = this.queue;
+            var df = Promise.defer();
+
+            if(queue.length) {
+                df.resolve(queue.shift());
+            }
+            else {
+                this.loadNext().then(function(music) {
+                    df.resolve(music);
+                }, function(err) {
+                    df.reject(err);
+                });
+            }
+
+            if(queue.length < 1) {
+                this.loadNext().then(function(music) {
+                    queue.push(music);
+                });
+            }
+
+            return df.promise;
+        },
+        loadNext: function() {
+            var channel = this.currChannel;
+            if(!channel) {
+                return;
+            }
+
+            // http://douban.fm/j/mine/playlist?type=p&sid=693695&pt=0.0&channel=8&pb=128&from=mainsite&r=d07cdf6a52
+
+            var url = 'http://douban.fm/j/mine/playlist';
+            var r = Date.now().toString(16);
+            var data = {
+                // pb: 128,
+                type: 'p',
+                channel: channel.id,
+                from: 'mainsite',
+                sid: '693695',
+                pt: '0.0',
+                r: r
+            };
+
+            return ds.get(url, data).then(function(res) {
+                if(res && res.song && res.song[0]) {
+                    return Promise.resolve(res.song[0]);
+                }
+                else {
+                    Promise.reject(new Error('List: load error'));
+                }
+            });
         }
     });
 

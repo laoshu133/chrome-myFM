@@ -18,7 +18,7 @@
             <div class="info-progress">
                 <input type="range" class="progress-bar" min="0" max="100" value="0">
                 <!-- <input type="range" class="progress-bar-x" min="0" max="100" value="0"> -->
-                <span class="timer">Loading...</span>
+                <span class="timer" v-show="player.status=='loading'">Loading...</span>
             </div>
             <div class="app-btns">
                 <a href="#" class="fa next"><span>Next</span></a>

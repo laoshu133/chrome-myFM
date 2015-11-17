@@ -21,8 +21,29 @@
 
             this.setChannel(this.user.lastChannel);
         },
-        play: function() {
+        status: 'ready',
+        currMusic: null,
+        _play: function() {
+            var music = this.currMusic;
+            if(!music) {
+                return;
+            }
 
+            console.log(music);
+        },
+        play: function() {
+            var self = this;
+            this.status = 'loading';
+
+            this.list.next().then(function(music) {
+                self.currMusic = music;
+                self.status = 'playing';
+                self._play();
+            }, function(err) {
+                self.status = 'error';
+
+                throw err;
+            });
         },
         pause: function() {
 
@@ -37,18 +58,7 @@
             var self = this;
             var list = this.list;
 
-            if(channel) {
-                list.addChannel(channel);
-
-                list.channels.forEach(function(item) {
-                    if(item.id === channel.id) {
-                        self.currChannel = item;
-                    }
-                });
-            }
-            else {
-                this.currChannel = list.channels[0];
-            }
+            this.currChannel = list.setChannel(channel);
 
             this.next();
         }
