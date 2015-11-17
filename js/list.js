@@ -56,12 +56,13 @@
     ds.mix(List.prototype, {
         constructor: List,
         init: function() {
+            var self = this;
             var channels = this.channels = [];
 
             defaultChannels.forEach(function(item) {
                 item = ds.extend({}, item);
 
-                channels.push(item);
+                self.addChannel(item);
             });
 
             this.loadLocalChannels();
@@ -82,6 +83,9 @@
             if(!cacheChannel) {
                 channelsMap[channel.id] = channel;
                 channels.push(channel);
+
+                // ext
+                channel.lastActive = 0;
 
                 return channel;
             }

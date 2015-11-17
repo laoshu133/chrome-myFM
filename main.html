@@ -38,7 +38,10 @@
                                 <span
                                     v-bind:class="{'current':item==player.currChannel}"
                                     v-on:click="player.setChannel(item)"
-                                >{{item.name}}</span>
+                                >
+                                    {{item.name}}
+                                    <i class="fa icon-check"></i>
+                                </span>
                             </li>
                         </ul>
                     </div>
