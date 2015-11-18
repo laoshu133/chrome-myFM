@@ -8,17 +8,33 @@
 </head>
 <body>
     <div class="page-app" id="J_app">
-        <div class="app-pic"><a href="###"></a></div>
+        <div class="app-pic">
+            <a href="http://music.douban.com{{player.music.album}}" target="_blank">
+                <img
+                    class="pic_1"
+                    v-show="player.music.pic_url"
+                    v-bind:alt="player.music.title"
+                    v-bind:src="player.music.pic_url"
+                >
+            </a>
+        </div>
         <div class="app-info">
             <div class="info-main">
-                <h1 class="name">Song name</h1>
-                <h2 class="album">Album</h2>
-                <h3 class="artists">Artists</h3>
+                <h1 class="name">{{player.music.title || 'Song name'}}</h1>
+                <h2 class="album">{{player.music.albumtitle || 'Album'}}</h2>
+                <h3 class="artists">{{player.music.artist || 'Artists'}}</h3>
             </div>
             <div class="info-progress">
-                <input type="range" class="progress-bar" min="0" max="100" value="0">
+                <input
+                    type="range"
+                    class="progress-bar"
+                    min="0"
+                    max="1000"
+                    value="{{1000 * player.musicState.progress}}"
+                >
                 <!-- <input type="range" class="progress-bar-x" min="0" max="100" value="0"> -->
                 <span class="timer" v-show="player.status=='loading'">Loading...</span>
+                <span class="timer" v-show="player.status!='loading'">{{player.musicState.played | musicTime}}</span>
             </div>
             <div class="app-btns">
                 <a href="#" class="fa next"><span>Next</span></a>

@@ -49,11 +49,20 @@ a:hover{
     left: 0;
     top: 0;
 }
-.app-pic a{
+.app-pic a,
+.app-pic img{
     display: block;
     background: url(img/disk.png) no-repeat 50% 50%;
     background-size: cover;
     height: 100%;
+    width: 100%;
+    position: relative;
+}
+.app-pic img{
+    background: none;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 /* app-info */

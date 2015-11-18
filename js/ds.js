@@ -290,9 +290,20 @@
                     data = null;
                 }
 
+                // res type
+                var isBlobRespone = false;
+                var dataType = ops.dataType.toLowerCase();
+                if(/(?:blob|arraybuffer)/.test(dataType)) {
+                    isBlobRespone = true;
+                }
+
                 // xhr
                 var xhr = new XMLHttpRequest();
                 xhr.open(type, url, true);
+
+                if(isBlobRespone) {
+                    xhr.responseType = dataType;
+                }
 
                 if(type === 'GET' && !ops.cache) {
                     xhr.setRequestHeader('Cache-Control', 'no-cache');
@@ -304,14 +315,14 @@
 
                 xhr.onload = function() {
                     var status = 'success';
-                    var ret = xhr.responseText;
                     var statusCode = xhr.status;
+                    var ret = isBlobRespone ?
+                        xhr.response : xhr.responseText;
 
                     if(statusCode >= 200 && statusCode < 300 ||
                         statusCode === 304
                     ) {
-                        var dataType = ops.dataType;
-                        if(dataType === 'auto') {
+                        if(!dataType || dataType === 'auto') {
                             var resType = (xhr.getResponseHeader('content-type') || '').toLowerCase();
                             if(resType.indexOf('json') > -1) {
                                 dataType = 'json';
