@@ -81,5 +81,5 @@
         }
     };
 
-    // app.init();
+    app.init();
 })(this);
