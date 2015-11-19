@@ -142,9 +142,17 @@
             this.syncState();
         },
         resume: function() {
+            if(this.status !== 'paused') {
+                return;
+            }
+
             this._play();
         },
         next: function() {
+            if(this.status === 'loading') {
+                return;
+            }
+
             this.status = 'ready';
             this.play();
         },
