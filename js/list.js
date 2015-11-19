@@ -57,8 +57,12 @@
         constructor: List,
         init: function() {
             var self = this;
-            var channels = this.channels = [];
 
+            // own props
+            this.queue = [];
+            this.channels = [];
+
+            // default channels
             defaultChannels.forEach(function(item) {
                 item = ds.extend({}, item);
 
@@ -114,6 +118,9 @@
             else {
                 this.currChannel = this.channels[0];
             }
+
+            // cache
+            this.clearCache();
 
             return this.currChannel;
         },
@@ -191,7 +198,18 @@
 
             return df.promise;
         },
+        musicModel: {
+            url: '',
+            title: '',
+            album: '',
+            albumtitle: '',
+            artist: '',
+            file_ext: '',
+            picture: '',
+            pic_url: ''
+        },
         loadNext: function() {
+            var musicModel = this.musicModel;
             var channel = this.currChannel;
             if(!channel) {
                 return;
@@ -212,13 +230,19 @@
             };
 
             return ds.get(url, data).then(function(res) {
-                if(res && res.song && res.song[0]) {
-                    return Promise.resolve(res.song[0]);
+                var music = res && res.song && res.song[0];
+                if(music) {
+                    music = ds.mix(music, musicModel);
+
+                    return Promise.resolve(music);
                 }
                 else {
                     Promise.reject(new Error('List: load error'));
                 }
             });
+        },
+        clearCache: function() {
+            this.queue = [];
         }
     });
 

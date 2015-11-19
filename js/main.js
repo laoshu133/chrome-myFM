@@ -7,9 +7,9 @@
     var app = global.app = {
         init: function() {
             this.initPlayer();
-            this.initVM();
-
             this.player.play();
+
+            this.initVM();
         },
         vm: null,
         initVM: function(data) {
@@ -43,35 +43,43 @@
 
             var vm = this.vm = new Vue({
                 el: '#J_app',
+                methods: app.methods,
                 data: data
+
             });
         },
         player: null,
         initPlayer: function() {
             this.player = new Player();
-
-            return;
-
-
-            var self = this;
-
-
-            var list = new List();
-
-            console.log(list.channels);
-
-            list.loadChannels()
-            .always(function() {
-                console.log(arguments);
-                console.log(list.channels);
-
-
-            });
         },
-        setChannels: function(channels) {
+        // methods
+        methods: {
+            setChannel: function(channel) {
+                this.player.setChannel(channel);
 
+                this.menuActived = false;
+            },
+            setProgress: (function() {
+                var timer;
+                var ratio = 1000;
+
+                function _setProgress(val) {
+                    var player = app.player;
+                    var progress = val / ratio;
+
+                    player.setProgress(progress);
+                    player.resume();
+                }
+
+                return function(e) {
+                    clearTimeout(timer);
+                    timer = setTimeout(function() {
+                        _setProgress(+e.target.value);
+                    }, 0);
+                };
+            })()
         }
     };
 
-    app.init();
+    // app.init();
 })(this);

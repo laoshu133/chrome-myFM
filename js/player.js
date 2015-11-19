@@ -21,11 +21,12 @@
 
             // own prop
             this.music = {};
-            this.musicState = ds.extend({}, this.musicState);
+            this.state = ds.extend({}, this.state);
 
             this.initAudio();
 
-            this.setChannel(this.user.lastChannel);
+            this.setChannel(this.user.lastChannel, false);
+            this.status = 'loading';
         },
         initAudio: function() {
             var self = this;
@@ -39,7 +40,7 @@
             var lastSync = 0;
             var sync = function() {
                 var now = Date.now();
-                if(now - lastSync > 100) {
+                if(now - lastSync > 0) {
                     self.syncState();
 
                     lastSync = now;
@@ -58,10 +59,10 @@
                 self.throwError(e);
             });
         },
-        musicState: {
+        state: {
             volume: 0,
             muted: false,
-            paused: false,
+            paused: true,
             duration: 0,
             progress: 0,
             played: 0
@@ -76,7 +77,7 @@
                 progress = played / duration;
             }
 
-            ds.extend(this.musicState, {
+            ds.extend(this.state, {
                 played: played,
                 progress: progress,
                 duration: duration,
@@ -94,25 +95,35 @@
             }
 
             var audio = this.audio;
-            audio.pause();
+            var status = this.status;
 
-            audio.src = music.url;
+            if(status !== 'paused') {
+                audio.pause();
+
+                audio.src = music.url;
+                this.loadMusicPic();
+            }
+
             audio.play();
 
+            this.status = 'playing';
             this.syncState();
-            this.loadMusicPic();
         },
         play: function() {
             var self = this;
-            this.status = 'loading';
+            var status = this.status;
 
+            if(status === 'paused') {
+                this.resume();
+                return;
+            }
+
+            this.status = 'loading';
             this.list.next().then(function(music) {
-                if(!music.pic_url) {
-                    music.pic_url = '';
-                }
+                // fix props for vue
+                music.pic_url = '';
 
                 self.music = music;
-                self.status = 'playing';
                 self._play();
             }, function(err) {
                 self.status = 'error';
@@ -121,20 +132,46 @@
             });
         },
         pause: function() {
-            this.status = 'paused';
+            if(this.status !== 'playing') {
+                return;
+            }
+
             this.audio.pause();
+
+            this.status = 'paused';
+            this.syncState();
+        },
+        resume: function() {
+            this._play();
         },
         next: function() {
+            this.status = 'ready';
             this.play();
         },
         prev: function() {
             // ...
         },
+        setProgress: function(progress) {
+            progress = Math.max(0, Math.min(1, progress));
+
+            if(
+                !this.music ||
+                isNaN(progress) ||
+                progress === this.state.progress
+            ) {
+                return;
+            }
+
+            var time = this.state.duration * progress;
+
+            this.audio.currentTime = time;
+            this.syncState();
+        },
         // vol
         volume: function(vol) {
             var ratio = 100;
             var audio = this.audio;
-            var state = this.musicState;
+            var state = this.state;
 
             if(vol === undefined) {
                 return ratio * state.volume;
@@ -143,6 +180,8 @@
             vol /= ratio;
 
             audio.volume = vol;
+            this.mute(false);
+
             this.syncState();
         },
         mute: function(muted) {
@@ -157,15 +196,15 @@
         },
         loadMusicPic: function() {
             var self = this;
-            var url = this.music.picture;
+            var music = this.music || {};
+            var url = music.picture;
 
-            if(!url) {
+            if(!url || music.pic_url) {
                 return;
             }
 
             ds.get(url, ds.noop, 'blob').then(function(res) {
-                var music = self.music;
-                if(url !== music.picture) {
+                if(music !== self.music) {
                     return;
                 }
 
@@ -173,13 +212,15 @@
             });
         },
         // channel
-        setChannel: function(channel) {
+        setChannel: function(channel, next) {
             var self = this;
             var list = this.list;
 
             this.currChannel = list.setChannel(channel);
 
-            this.next();
+            if(next || next === undefined) {
+                this.next();
+            }
         },
         // error
         throwError: function(ex) {

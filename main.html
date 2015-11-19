@@ -9,38 +9,86 @@
 <body>
     <div class="page-app" id="J_app">
         <div class="app-pic">
-            <a href="http://music.douban.com{{player.music.album}}" target="_blank">
-                <img
-                    class="pic_1"
-                    v-show="player.music.pic_url"
-                    v-bind:alt="player.music.title"
-                    v-bind:src="player.music.pic_url"
-                >
+            <a
+                target="_blank"
+                href="http://music.douban.com{{player.music.album}}"
+                v-show="player.music"
+                v-cloak
+            >
+                <i
+                    class="pic_1 hide"
+                    v-if="player.music.pic_url"
+                    v-bind:style="{backgroundImage:'url('+ player.music.pic_url +')'}"
+                ></i>
             </a>
         </div>
         <div class="app-info">
-            <div class="info-main">
-                <h1 class="name">{{player.music.title || 'Song name'}}</h1>
-                <h2 class="album">{{player.music.albumtitle || 'Album'}}</h2>
-                <h3 class="artists">{{player.music.artist || 'Artists'}}</h3>
+            <div class="info-main" v-show="!player">
+                <h1 class="name">Song name</h1>
+                <h2 class="album">Album</h2>
+                <h3 class="artists">Artists</h3>
+            </div>
+            <div class="info-main" v-cloak>
+                <h1
+                    class="name"
+                    v-bind:title="player.music.title"
+                >{{player.music.title || 'Song name'}}</h1>
+                <h2
+                    class="album"
+                >{{player.music.albumtitle || 'Album'}}</h2>
+                <h3
+                    class="artists"
+                >{{player.music.artist || 'Artists'}}</h3>
             </div>
             <div class="info-progress">
+                <input
+                    value="0"
+                    type="range"
+                    class="progress-bar"
+                    v-show="!player"
+                >
                 <input
                     type="range"
                     class="progress-bar"
                     min="0"
+                    step="1"
                     max="1000"
-                    value="{{1000 * player.musicState.progress}}"
+                    value="{{1000 * player.state.progress}}"
+                    v-on:change="setProgress($event)"
+                    v-on:input="player.pause()"
+                    v-cloak
                 >
                 <!-- <input type="range" class="progress-bar-x" min="0" max="100" value="0"> -->
                 <span class="timer" v-show="player.status=='loading'">Loading...</span>
-                <span class="timer" v-show="player.status!='loading'">{{player.musicState.played | musicTime}}</span>
+                <span class="timer" v-show="player.status!='loading'" v-cloak>{{player.state.played | musicTime}}</span>
             </div>
             <div class="app-btns">
-                <a href="#" class="fa next"><span>Next</span></a>
-                <a href="#" class="fa play"><span>Play/Pause</span></a>
-                <a href="#" class="fa love"><span>Love</span></a>
-                <a href="#" class="fa del"><span>Delete</span></a>
+                <a
+                    href="#"
+                    class="fa next"
+                    v-on:click="player.next()"
+                ><span>Next</span></a>
+                <a
+                    href="#"
+                    class="fa play"
+                    v-show="player.state.paused"
+                    v-on:click="player.play()"
+                ><span>Play</span></a>
+                <a
+                    href="#"
+                    class="fa pause"
+                    v-show="!player.state.paused"
+                    v-on:click="player.pause()"
+                    v-cloak
+                ><span>Pause</span></a>
+                <a
+                    href="#"
+                    class="fa love"
+                ><span>Love</span></a>
+                <a
+                    href="#"
+                    class="fa del"
+                ><span>Block</span></a>
             </div>
         </div>
         <div class="app-menus">
@@ -53,7 +101,7 @@
                             <li v-for="item in player.list.channels">
                                 <span
                                     v-bind:class="{'current':item==player.currChannel}"
-                                    v-on:click="player.setChannel(item)"
+                                    v-on:click="setChannel(item);"
                                 >
                                     {{item.name}}
                                     <i class="fa icon-check"></i>
@@ -63,9 +111,17 @@
                     </div>
                 </div>
             </div>
-            <div class="volume">
-                <i class="fa icon"></i>
-                <input type="range" class="volume-bar" min="0" max="100" value="80">
+            <div class="volume" v-bind:class="{muted: player.state.muted}">
+                <i class="fa icon" v-on:click="player.mute()"></i>
+                <input
+                    type="range"
+                    class="volume-bar"
+                    min="0"
+                    step="1"
+                    max="100"
+                    value="{{player.state.muted ? 0 : 100 * player.state.volume}}"
+                    v-on:input="player.volume($event.target.value)"
+                >
             </div>
         </div>
     </div>
