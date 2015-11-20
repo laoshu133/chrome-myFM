@@ -180,12 +180,18 @@
             var ratio = 100;
             var audio = this.audio;
             var state = this.state;
+            var currVol = ratio * state.volume;
 
             if(vol === undefined) {
-                return ratio * state.volume;
+                return currVol;
             }
 
             vol /= ratio;
+            if(isNaN(vol)) {
+                vol = currVol;
+            }
+
+            vol = Math.max(0, Math.min(1, vol));
 
             audio.volume = vol;
             this.mute(false);

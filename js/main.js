@@ -77,7 +77,29 @@
                         _setProgress(+e.target.value);
                     }, 0);
                 };
-            })()
+            })(),
+            changeVolume: function(e) {
+                var player = app.player;
+                var vol = player.volume();
+                var delta = e.wheelDeltaY || e.wheelDelta;
+
+                // revert
+                var volDown = false;
+                if(delta > 0) {
+                    volDown = true;
+                }
+
+                // abs
+                delta = Math.abs(delta / 3);
+
+                // limit
+                delta = Math.max(0, Math.min(4, delta));
+                if(volDown) {
+                    delta = -delta;
+                }
+
+                player.volume(vol + delta);
+            }
         }
     };
 

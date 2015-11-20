@@ -111,7 +111,11 @@
                     </div>
                 </div>
             </div>
-            <div class="volume" v-bind:class="{muted: player.state.muted}">
+            <div
+                class="volume"
+                v-bind:class="{muted: player.state.muted}"
+                v-on:wheel="changeVolume($event)"
+            >
                 <i class="fa icon" v-on:click="player.mute()"></i>
                 <input
                     type="range"
