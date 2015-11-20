@@ -5,7 +5,7 @@
 
 (function(global) {
     function Player(ops) {
-        this.init(ops);
+        // this.init(ops);
     }
 
     var defaultOptions = {};
@@ -14,19 +14,25 @@
         list: null,
         currChannel: null,
         init: function(ops) {
+            var self = this;
+
             this.options = ds.extend({}, defaultOptions, ops);
 
+            var user = this.user = new User();
             this.list = new List();
-            this.user = new User();
 
             // own prop
             this.music = {};
             this.state = ds.extend({}, this.state);
 
+            // init
+            this.status = 'loading';
             this.initAudio();
 
-            this.setChannel(this.user.lastChannel, false);
-            this.status = 'loading';
+            return user.init().then(function() {
+                var info = user.info;
+                self.setChannel(info.lastChannel, false);
+            });
         },
         initAudio: function() {
             var self = this;
@@ -235,6 +241,9 @@
             if(next || next === undefined) {
                 this.next();
             }
+
+            // save
+            this.user.setInfo('lastChannel', this.currChannel);
         },
         // error
         throwError: function(ex) {

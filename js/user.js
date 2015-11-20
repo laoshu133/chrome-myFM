@@ -5,14 +5,18 @@
 
 (function(global) {
     function User() {
-        this.init();
+        // this.init();
     }
 
     ds.mix(User.prototype, {
         info: null,
         currChannel: null,
         init: function() {
-            this.loadInfo();
+            // own props
+            this.info = {};
+
+            // loader
+            return this.loadInfo();
         },
         storageKey: 'myfm_user',
         loadInfo: function() {
@@ -35,9 +39,13 @@
         saveInfo: function() {
             var key = this.storageKey;
             var data = this.info;
-            // var data = JSON.stringify(this.info);
 
             ds.storage(key, data);
+        },
+        setInfo: function(key, val) {
+            this.info[key] = val;
+
+            this.saveInfo();
         }
     });
 

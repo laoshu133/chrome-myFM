@@ -7,8 +7,6 @@
     var app = global.app = {
         init: function() {
             this.initPlayer();
-            this.player.play();
-
             this.initVM();
         },
         vm: null,
@@ -36,9 +34,7 @@
 
             data = ds.mix({
                 menuActived: false,
-                player: this.player,
-                currChannel: null,
-                channels: []
+                player: this.player
             }, data);
 
             var vm = this.vm = new Vue({
@@ -50,7 +46,12 @@
         },
         player: null,
         initPlayer: function() {
-            this.player = new Player();
+            var player = this.player = new Player();
+
+            player.init().then(function() {
+                // auto start
+                player.play();
+            });
         },
         // methods
         methods: {

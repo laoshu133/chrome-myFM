@@ -119,10 +119,14 @@
                 this.currChannel = this.channels[0];
             }
 
-            // cache
-            this.clearCache();
+            // lastActive
+            channel = this.currChannel;
+            channel.lastActive = Date.now();
 
-            return this.currChannel;
+            // cache
+            this.clearMusicCache();
+
+            return channel;
         },
         loadChannels: function() {
             var self = this;
@@ -241,7 +245,7 @@
                 }
             });
         },
-        clearCache: function() {
+        clearMusicCache: function() {
             this.queue = [];
         }
     });
