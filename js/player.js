@@ -12,7 +12,6 @@
 
     ds.mix(Player.prototype, {
         list: null,
-        currChannel: null,
         init: function(ops) {
             var self = this;
 
@@ -21,8 +20,9 @@
             var user = this.user = new User();
             this.list = new List();
 
-            // own prop
+            // own props
             this.music = {};
+            this.currChannel = null;
             this.state = ds.extend({}, this.state);
 
             // init
