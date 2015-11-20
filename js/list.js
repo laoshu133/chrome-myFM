@@ -61,6 +61,7 @@
             // own props
             this.queue = [];
             this.channels = [];
+            this.digger = new Digger();
 
             // default channels
             defaultChannels.forEach(function(item) {
@@ -181,6 +182,8 @@
         queue: [],
         next: function() {
             var queue = this.queue;
+            var digger = this.digger;
+
             var df = Promise.defer();
 
             if(queue.length) {
@@ -197,6 +200,10 @@
             if(queue.length < 1) {
                 this.loadNext().then(function(music) {
                     queue.push(music);
+
+                    // digger
+                    // be fast, only dig next music
+                    digger.dig(music);
                 });
             }
 
@@ -204,6 +211,8 @@
         },
         musicModel: {
             url: '',
+            url_form: '',
+            orig_url: '',
             title: '',
             album: '',
             albumtitle: '',
