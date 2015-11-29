@@ -35,14 +35,14 @@
 		},
 		"volume_up": {
 			"suggested_key": {
-				"default": "Ctrl+Shift+Alt+]"
+				"default": "Ctrl+Shift+P"
 			},
 			"description": "Volume up",
 			"global": true
 		},
 		"volume_down": {
 			"suggested_key": {
-				"default": "Ctrl+Shift+Alt+["
+				"default": "Ctrl+Shift+O"
 			},
 			"description": "Volume down",
 			"global": true

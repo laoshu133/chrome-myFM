@@ -31,14 +31,16 @@
                     player.prev();
                 },
                 volume_up: function() {
+                    var unit = 100 / 10;
                     var vol = player.volume();
 
-                    player.volume(vol + 5);
+                    player.volume(vol + unit);
                 },
                 volume_down: function() {
+                    var unit = 100 / 10;
                     var vol = player.volume();
 
-                    player.volume(vol - 5);
+                    player.volume(vol - unit);
                 }
             };
 
