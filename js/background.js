@@ -6,6 +6,7 @@
 
 ;(function(global) {
 	var ds = global.ds;
+	var Messager = ds.Messager;
 
 	chrome.app.runtime.onLaunched.addListener(function() {
 		chrome.app.window.create('main.html', {
@@ -16,10 +17,21 @@
 		});
 	});
 
-	// chrome.commands.onCommand.addListener(function() {
-	// 	console.log('xxx', arguments);
+	// Messager
+	var instanceUid = 0;
+	Messager.addListener('init', function(e) {
+		var port = e.port;
 
-	// 	return false;
-	// });
+		e.callback({
+			id: ++instanceUid
+		});
 
+		chrome.commands.onCommand.addListener(function(key) {
+			Messager.postToPort(port, 'command', {
+				key: key
+			});
+
+			return false;
+		});
+	});
 })(this);

@@ -148,7 +148,10 @@
         var _backgroundPort;
         function getBackgroundPort() {
             if(!_backgroundPort) {
-                _backgroundPort = chrome.runtime.connect({ name: 'ds' });
+                _backgroundPort = chrome.runtime.connect({
+                    name: 'ds'
+                });
+
                 initPortListener(_backgroundPort);
             }
 
@@ -195,26 +198,37 @@
 
                 return this;
             },
-            postToBackground: function(/* type, data, callback */) {
-                var evt = createPostEvent.apply(null, arguments);
+            postToPort: function(port, type/*, data, callback */) {
+                var evt;
+                if(type instanceof ds.Event) {
+                    evt = type;
+                }
+                else {
+                    var args = slice.call(arguments, 1);
+                    evt = createPostEvent.apply(null, args);
+                }
 
-                var port = getBackgroundPort();
                 port.postMessage(evt);
-
                 return this;
+            },
+            postToBackground: function(/* type, data, callback */) {
+                var args = slice.call(arguments, 0);
+                var port = getBackgroundPort();
+
+                args.unshift(port);
+
+                return this.postToPort.apply(this, args);
             },
             postToTab: function(tabId/*, type, data, callback */) {
                 var args = slice.call(arguments, 1);
-                var evt = createPostEvent.apply(null, args);
-
                 var port = chrome.tabs.connect(tabId, {
                     name: 'ds'
                 });
 
                 initPortListener(port);
-                port.postMessage(evt);
+                args.unshift(port);
 
-                return this;
+                return this.postToPort.apply(this, args);
             },
             postToCurrentTab: function(/* type, data, callback */) {
                 var self = this;

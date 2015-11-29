@@ -7,7 +7,53 @@
     var app = global.app = {
         init: function() {
             this.initPlayer();
+            this.initEvent();
             this.initVM();
+        },
+        initEvent: function() {
+            var self = this;
+            var Messager = ds.Messager;
+
+            var player = this.player;
+            var commands = {
+                play_pause: function() {
+                    if(player.status === 'paused') {
+                        player.resume();
+                    }
+                    else {
+                        player.pause();
+                    }
+                },
+                next: function() {
+                    player.next();
+                },
+                prev: function() {
+                    player.prev();
+                },
+                volume_up: function() {
+                    var vol = player.volume();
+
+                    player.volume(vol + 5);
+                },
+                volume_down: function() {
+                    var vol = player.volume();
+
+                    player.volume(vol - 5);
+                }
+            };
+
+            Messager.addListener('command', function(e) {
+                var command = commands[e.data.key];
+                if(!command) {
+                    return;
+                }
+
+                command.call(self, e.data);
+            });
+
+            Messager.postToBackground('init', function(e) {
+                console.log('App main init, id:', e.data.id);
+            });
         },
         vm: null,
         initVM: function(data) {
@@ -41,7 +87,6 @@
                 el: '#J_app',
                 methods: app.methods,
                 data: data
-
             });
         },
         player: null,

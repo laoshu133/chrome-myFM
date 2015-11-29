@@ -12,9 +12,44 @@
 		}
 	},
 	"commands": {
-		"test_hot_key": {
+		"play_pause": {
 			"suggested_key": {
 				"default": "MediaPlayPause"
+			},
+			"description": "Play or pause",
+			"global": true
+		},
+		"next": {
+			"suggested_key": {
+				"default": "MediaNextTrack"
+			},
+			"description": "Next Music",
+			"global": true
+		},
+		"prev": {
+			"suggested_key": {
+				"default": "MediaPrevTrack"
+			},
+			"description": "Previous Music",
+			"global": true
+		},
+		"volume_up": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+Alt+]"
+			},
+			"description": "Volume up",
+			"global": true
+		},
+		"volume_down": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+Alt+["
+			},
+			"description": "Volume down",
+			"global": true
+		},
+		"test_hot_key": {
+			"suggested_key": {
+				"default": "MediaStop"
 			},
 			"description": "Test hot key222",
 			"global": true
