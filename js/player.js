@@ -73,7 +73,12 @@
             progress: 0,
             played: 0
         },
+        syncFlag: true,
         syncState: function() {
+            if(!this.syncFlag) {
+                return;
+            }
+
             var audio = this.audio;
             var played = audio.currentTime;
             var duration = audio.duration;
@@ -91,6 +96,12 @@
                 paused: audio.paused,
                 muted: audio.muted
             });
+        },
+        lockStateSync: function() {
+            this.syncFlag = false;
+        },
+        unlockStateSync: function() {
+            this.syncFlag = true;
         },
         music: null,
         status: 'ready',

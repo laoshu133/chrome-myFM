@@ -107,22 +107,38 @@
 
                 this.menuActived = false;
             },
+            // hack for input range
+            lockProgressSync: function() {
+                app.player.lockStateSync();
+            },
+            unlockProgressSync: function() {
+                app.player.unlockStateSync();
+            },
             setProgress: (function() {
                 var timer;
-                var ratio = 1000;
 
-                function _setProgress(val) {
+                function _setProgress(progress) {
                     var player = app.player;
-                    var progress = val / ratio;
 
                     player.setProgress(progress);
+                    player.unlockStateSync();
                     player.resume();
                 }
 
                 return function(e) {
                     clearTimeout(timer);
                     timer = setTimeout(function() {
-                        _setProgress(+e.target.value);
+                        var elem = e.target;
+                        var progress = 0;
+
+                        if(e.type !== 'click') {
+                            progress = elem.value / elem.max;
+                        }
+                        else {
+                            progress = e.offsetX / elem.offsetWidth;
+                        }
+
+                        _setProgress(progress);
                     }, 0);
                 };
             })(),
