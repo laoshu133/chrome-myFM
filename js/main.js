@@ -4,6 +4,8 @@
  */
 
 (function(global) {
+    var Messager = ds.Messager;
+
     var app = global.app = {
         init: function() {
             this.initPlayer();
@@ -12,7 +14,6 @@
         },
         initEvent: function() {
             var self = this;
-            var Messager = ds.Messager;
 
             var player = this.player;
             var commands = {
@@ -97,7 +98,7 @@
 
             player.init().then(function() {
                 // auto start
-                player.play();
+                // player.play();
             });
         },
         // methods
@@ -163,6 +164,13 @@
                 }
 
                 player.volume(vol + delta);
+            },
+            // ext
+            callAppCommand: function(key, data) {
+                Messager.postToBackground('command', {
+                    data: data,
+                    key: key
+                });
             }
         }
     };

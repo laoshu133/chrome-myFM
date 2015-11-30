@@ -54,6 +54,8 @@
                     step="1"
                     max="1000"
                     value="{{1000 * player.state.progress}}"
+                    v-on:mousedown="lockProgressSync()"
+                    v-on:mouseup="unlockProgressSync()"
                     v-on:change="setProgress($event)"
                     v-on:input="player.pause()"
                     v-cloak
@@ -96,10 +98,23 @@
                 <a href="#" class="fa toggle" v-on:click="menuActived=!menuActived"><span>More</span></a>
                 <div class="mask"></div>
                 <div class="inner">
+                    <div class="app-actions">
+                        <span
+                            role="button"
+                            class="setting"
+                            v-on:click="callAppCommand('setting')"
+                        >设置</span>
+                        <span
+                            role="button"
+                            class="about"
+                            v-on:click="callAppCommand('about')"
+                        >关于</span>
+                    </div>
                     <div class="channel-list">
                         <ul>
                             <li v-for="item in player.list.channels">
                                 <span
+                                    role="button"
                                     v-bind:class="{'current':item==player.currChannel}"
                                     v-on:click="setChannel(item);"
                                 >

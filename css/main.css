@@ -287,6 +287,21 @@ a:hover{
     }
 }
 
+/* app-actions */
+.app-actions{
+    float: right;
+    margin-top: -40px;
+}
+.app-actions span{
+    display: inline-block;
+    cursor: pointer;
+    padding: .1em .5em;
+    vertical-align: top;
+}
+.app-actions span:hover{
+    color: #2AA751;
+}
+
 
 /* channel-list */
 .channel-list::before{
