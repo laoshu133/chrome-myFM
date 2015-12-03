@@ -15,7 +15,7 @@ body{
 body{
     background: #FFF;
     color: #111;
-    font:14px/1.5 Arial,Helvetica,"Microsoft Yahei";
+    font:14px/1.5 Arial,Helvetica,STHeiti,sans-serif;
 }
 a{
     color: #333;
@@ -369,9 +369,139 @@ a:hover{
 
 
 
-
-
-
+/* page-setting */
+.page-setting{
+    margin-left: 120px;
+    position: relative;
+}
+.page-setting h1,
+.page-setting h2,
+.page-setting h3{
+    color: #5C6166;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0;
+}
+.page-setting h1{
+    margin: 21px 0 1em 23px;
+}
+.page-setting h3{
+    font-size: 16px;
+}
+.page-setting nav{
+    line-height: 1.2;
+    margin-left: -120px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.page-setting nav ul{
+    margin: 12px 0;
+    list-style: none;
+}
+.page-setting nav li{
+    vertical-align: top;
+}
+.page-setting nav a{
+    display: block;
+    border-left: 6px solid #FFF;
+    color: #999;
+    padding: 6px 0 6px 18px;
+}
+.page-setting nav a:hover{
+    color: #666;
+}
+.page-setting nav a.selected{
+    border-left-color: #464E5A;
+    color: #464E5A;
+}
+.page-setting .main{
+    position: absolute;
+    right: 20px;
+    left: 0;
+    top: 0;
+}
+.page-setting .main h2{
+    border-bottom: 1px solid #EEE;
+    color: #333;
+    padding: 18px 0 13px;
+}
+.page-setting .inner{
+    padding-top: 20px;
+}
+.page-setting .inner ul{
+    list-style: none;
+}
+.page-setting .inner li{
+    color: #999;
+    padding: 10px 0;
+}
+.page-setting .inner a:not(.btn){
+    color: #004ED7;
+}
+.page-setting .inner a:not(.btn):hover{
+    color: #4C83E5;
+}
+.page-setting .inner li a,
+.page-setting .inner li em{
+    font-style: normal;
+    margin-left: .7em;
+}
+.page-setting .inner li em{
+    color: #333;
+}
+.page-setting .inner li a:first-child{
+    margin-left: 0;
+}
+.page-setting .inner .intro{
+    color: #666;
+    margin: .4em 0;
+}
+.page-setting .group{
+    margin-bottom: 2em;
+}
+.page-setting .info{
+    margin: .8em 1em;
+}
+.page-setting .icon-star:before{
+    content: "\f005";
+    font-size: .7em;
+    margin-right: .2em;
+}
+.page-setting .btn,
+.page-setting button{
+    -webkit-appearance: none;
+    -webkit-user-select: none;
+    background-image: -webkit-linear-gradient(#ededed, #ededed 38%, #dedede);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.75);
+    color: #444;
+    cursor: pointer;
+    font: inherit;
+    margin: 0 1px 0 0;
+    padding: 3px 15px;
+    outline: none;
+    text-shadow: 0 1px 0 #F0F0F0;
+}
+.page-setting .btn:hover,
+.page-setting button:hover{
+    background-image: -webkit-linear-gradient(#f0f0f0, #f0f0f0 38%, #e0e0e0);
+    border-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+    color: #000;
+}
+.main-transition{
+    transition: transform .6s ease, opacity .6s ease .2s;
+}
+.main-enter,
+.main-leave{
+    opacity: 0;
+    transform: translate(-40px, 0);
+}
+.main-leave{
+    visibility: hidden;
+}
 
 
 @font-face {

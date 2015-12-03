@@ -60,7 +60,7 @@
         },
         vm: null,
         initVM: function(data) {
-            Vue.config.debug = true;
+            // Vue.config.debug = true;
 
             Vue.filter('musicTime', function(val) {
                 val += 0;

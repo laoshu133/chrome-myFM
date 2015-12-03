@@ -8,12 +8,76 @@
 </head>
 <body>
     <div class="page-setting" id="J_setting">
-        Setting...
+        <nav>
+            <h1>MyFM</h1>
+            <ul>
+                <li>
+                    <a href="#setting" v-bind:class="{selected:page=='setting'}">设置</a>
+                </li>
+                <li>
+                    <a href="#about" v-bind:class="{selected:page=='about'}">关于</a>
+                </li>
+            </ul>
+        </nav>
+        <div
+            id="setting"
+            class="main"
+            v-show="page=='setting'"
+            transition="main"
+            v-cloak
+        >
+            <h2>设置</h2>
+            <div class="inner inner-setting">
+                <section class="group">
+                    <h3>登录</h3>
+                    <div class="info">
+                        //@TODO: ...
+                    </div>
+                </section>
+                <section class="group">
+                    <h3>快捷键</h3>
+                    <div class="info">
+                        <p class="intro">如果想使用全局快捷键，请将“在 Chrome 中” 改为 “全局”</p>
+                        <button v-on:click="showShortcuts()">设置快捷键</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div
+            id="about"
+            class="main"
+            v-show="page=='about'"
+            transition="main"
+            v-cloak
+        >
+            <h2>关于</h2>
+            <div class="inner inner-about">
+                <ul>
+                    <li>
+                        <span>版本</span>
+                        <em>{{version}}</em>
+                    </li>
+                    <li>
+                        <span>感谢</span>
+                        <a href="http://douban.fm" target="_blank">豆瓣FM</a>
+                        <a href="#" target="_blank">@孙</a>
+                        <a href="#" target="_blank">@tudou</a>
+                    </li>
+                    <li>
+                        <span>反馈</span>
+                        <a href="https://github.com/laoshu133/chrome-myFM/issues" target="_blank" class="btn">报告问题</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/laoshu133/chrome-myFM" target="_blank"><i class="fa icon-star"></i>Star on GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <script src="js/vue.js"></script>
-    <script src="js/ds.js"></script>
-    <script src="js/user.js"></script>
+    <!-- <script src="js/ds.js"></script>
+    <script src="js/user.js"></script> -->
     <script src="js/setting.js"></script>
 </body>
 </html>
