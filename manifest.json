@@ -4,6 +4,11 @@
 	"name": "myFM",
 	"description": "A FM raido base on douban.fm",
 	"icons": {
+		"16": "img/16x16.png",
+		"48": "img/48x48.png",
+		"128": "img/128x128.png",
+		"256": "img/256x256.png",
+		"512": "img/512x512.png"
 	},
 	"permissions": [ "*://*/*", "storage" ],
 	"app": {
