@@ -2,7 +2,7 @@
 
 ## 简介
 
-A FM APP based on doubanFM, powered by Chrome APP
+A FM APP based on doubanFM, powered by Chrome Apps
 
 ## 特色
 
