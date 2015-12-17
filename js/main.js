@@ -98,7 +98,7 @@
 
             player.init().then(function() {
                 // auto start
-                // player.play();
+                player.play();
             });
         },
         // methods

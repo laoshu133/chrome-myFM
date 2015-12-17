@@ -51,29 +51,13 @@
         },
         methods: {
             openShortcuts: function() {
-                // var url = 'chrome://extensions/configureCommands';
-                var url = 'http://baidu.com';
-
-                // function openTab(url) {
-                //     var a = document.createElement('a');
-                //     a.href = url;
-                //     a.target='_blank';
-                //     a.click();
-                // }
-
-                // openTab(url);
-
-                console.log(url);
-
-                console.log('222');
+                var url = 'chrome://extensions/configureCommands';
 
                 window.open(url, '_blank');
 
                 // return chrome.tabs.create({
                 //     url: url
                 // });
-
-
             }
         }
     };
