@@ -198,6 +198,19 @@
 
                 return this;
             },
+            removeListener: function(type, callback) {
+                var listeners = msgListeners[type];
+
+                if(!listeners && !listeners.length) {
+                    return;
+                }
+
+                for(var i = listeners.length-1; i>=0; --i) {
+                    if(callback === listeners[i]) {
+                        listeners.splice(i, 1);
+                    }
+                }
+            },
             postToPort: function(port, type/*, data, callback */) {
                 var evt;
                 if(type instanceof ds.Event) {

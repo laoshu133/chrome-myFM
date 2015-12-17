@@ -11,10 +11,14 @@
             this.initPlayer();
             this.initEvent();
             this.initVM();
+
+            // clean
+            var appWin = chrome.app.window.current();
+            appWin.onClosed.addListener(function() {
+                app.callCommand('close');
+            });
         },
         initEvent: function() {
-            var self = this;
-
             var player = this.player;
             var commands = {
                 play_pause: function() {
@@ -51,7 +55,7 @@
                     return;
                 }
 
-                command.call(self, e.data);
+                command.call(app, e.data);
             });
 
             Messager.postToBackground('init', function(e) {
@@ -68,17 +72,23 @@
                     val = 0;
                 }
 
+                var isRemaining = val < 0;
+                if(isRemaining) {
+                    val *= -1;
+                }
+
+                var oneMinute = 1000 * 60;
                 var ms = Math.ceil(1000 * val);
-                var oneM = 1000 * 60;
+                var m = Math.floor(ms / oneMinute);
+                var s = Math.ceil((ms - m * oneMinute) / 1000);
 
-                var m = Math.floor(ms / oneM);
-                var s = Math.ceil((ms - m * oneM) / 1000);
-
-                return [
+                var txt = [
                     ('00' + m).slice(-2),
                     ('00' + s).slice(-2)
                 ]
                 .join(':');
+
+                return isRemaining ? '-' + txt : txt;
             });
 
             data = ds.mix({
@@ -98,7 +108,7 @@
 
             player.init().then(function() {
                 // auto start
-                player.play();
+                // player.play();
             });
         },
         // methods
@@ -167,11 +177,15 @@
             },
             // ext
             callAppCommand: function(key, data) {
-                Messager.postToBackground('command', {
-                    data: data,
-                    key: key
-                });
+                app.callCommand(key, data);
             }
+        },
+        // callCommand
+        callCommand: function(key, data) {
+            Messager.postToBackground('command', {
+                data: data,
+                key: key
+            });
         }
     };
 

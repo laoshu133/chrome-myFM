@@ -62,7 +62,7 @@
                 >
                 <!-- <input type="range" class="progress-bar-x" min="0" max="100" value="0"> -->
                 <span class="timer" v-show="player.status=='loading'">Loading...</span>
-                <span class="timer" v-show="player.status!='loading'" v-cloak>{{player.state.played | musicTime}}</span>
+                <span class="timer" v-show="player.status!='loading'" v-cloak>{{(player.state.played - player.state.duration) | musicTime}}</span>
             </div>
             <div class="app-btns">
                 <a
