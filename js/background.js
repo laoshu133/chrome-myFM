@@ -20,7 +20,7 @@
 	// Messager
 	var appUID = 0;
 	var appCommands = {
-		_getSettingView: function() {
+		_getSettingView: function(type) {
 			var df = Promise.defer();
 
 			chrome.app.window.create('setting.html', {
@@ -28,17 +28,25 @@
 				resizable: false,
 				height: 400,
 				width: 480
-			}, function() {
-				console.log('ccc', this, arguments);
+			}, function(appWin) {
+				if(appWin) {
+					var view = appWin.contentWindow;
+					view.location.hash = '#' + type;
+
+					df.resolve(appWin);
+				}
+				else {
+					df.reject(new Error('App err!'));
+				}
 			});
 
 			return df.promise;
 		},
 		about: function() {
-			this._getSettingView();
+			this._getSettingView('about');
 		},
 		setting: function() {
-
+			this._getSettingView('setting');
 		}
 	};
 

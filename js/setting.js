@@ -50,12 +50,30 @@
             vm.page = this.getCurrPage();
         },
         methods: {
-            showShortcuts: function() {
-                var url = 'chrome://extensions/configureCommands';
+            openShortcuts: function() {
+                // var url = 'chrome://extensions/configureCommands';
+                var url = 'http://baidu.com';
 
-                return chrome.tabs.create({
-                    url: url
-                });
+                // function openTab(url) {
+                //     var a = document.createElement('a');
+                //     a.href = url;
+                //     a.target='_blank';
+                //     a.click();
+                // }
+
+                // openTab(url);
+
+                console.log(url);
+
+                console.log('222');
+
+                window.open(url, '_blank');
+
+                // return chrome.tabs.create({
+                //     url: url
+                // });
+
+
             }
         }
     };

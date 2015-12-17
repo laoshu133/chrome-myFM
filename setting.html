@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="page-setting">
 <head>
     <meta charset="UTF-8">
     <title>myFM - laoshu133.com</title>
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div class="page-setting" id="J_setting">
+    <div class="container" id="J_setting">
         <nav>
             <h1>MyFM</h1>
             <ul>
@@ -37,8 +37,10 @@
                 <section class="group">
                     <h3>快捷键</h3>
                     <div class="info">
+                        <p class="intro">请打开 “设置” → “扩展程序” → “键盘快捷键” <br>或手动打开如下地址：</p>
+                        <span class="hotkeys"><input value="chrome://extensions/configureCommands" v-on:mouseenter="$event.target.select()"></span>
                         <p class="intro">如果想使用全局快捷键，请将“在 Chrome 中” 改为 “全局”</p>
-                        <button v-on:click="showShortcuts()">设置快捷键</button>
+                        <!-- <button v-on:click="openShortcuts()">设置快捷键</button> -->
                     </div>
                 </section>
             </div>

@@ -43,7 +43,7 @@ a:hover{
 }
 
 /* page-app */
-.page-app{
+.page-app .container{
     height: 240px;
     position: relative;
 }
@@ -370,7 +370,10 @@ a:hover{
 
 
 /* page-setting */
-.page-setting{
+.page-setting body{
+    overflow: auto;
+}
+.page-setting .container{
     margin-left: 120px;
     position: relative;
 }
@@ -390,8 +393,7 @@ a:hover{
 }
 .page-setting nav{
     line-height: 1.2;
-    margin-left: -120px;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
 }
@@ -416,6 +418,7 @@ a:hover{
     color: #464E5A;
 }
 .page-setting .main{
+    padding-bottom: 15px;
     position: absolute;
     right: 20px;
     left: 0;
@@ -434,7 +437,7 @@ a:hover{
 }
 .page-setting .inner li{
     color: #999;
-    padding: 10px 0;
+    padding: 7px 0;
 }
 .page-setting .inner a:not(.btn){
     color: #004ED7;
@@ -462,6 +465,13 @@ a:hover{
 }
 .page-setting .info{
     margin: .8em 1em;
+}
+.page-setting .info .hotkeys input{
+    border: 1px solid #AAA;
+    border-radius: .3em;
+    padding: .2em .5em;
+    height: 1.8em;
+    width: 80%;
 }
 .page-setting .icon-star:before{
     content: "\f005";
@@ -513,7 +523,7 @@ a:hover{
 
 
 /* input[type='range'] */
-input[type='range']{
+/*input[type='range']{
     -webkit-appearance: none;
 }
 input[type='range']:focus {
@@ -523,7 +533,6 @@ input[type='range']::-webkit-slider-runnable-track {
     -webkit-appearance: none;
     box-sizing: border-box;
     background: linear-gradient(to bottom, #AAA 0%, #CDCDCD 100%);
-    /*border: 1px solid #747474;*/
     border-color: #747474 #747474 #AEAEAE #AEAEAE;
     box-shadow: inset 0 1px 1px #666;
     border-radius: 5px;
@@ -532,7 +541,6 @@ input[type='range']::-webkit-slider-runnable-track {
 }
 input[type='range']::-webkit-slider-thumb{
     -webkit-appearance: none;
-    /*background: linear-gradient(to bottom, #F9F9F9 0%, #F5F5F5 49.9%, #ECECEC 50%, #EEE 100%);*/
     background: content-box, linear-gradient(#FAFAFA, #E4E4E4);
     border: 1px solid #8A8A8A;
     border-radius: 50%;
@@ -542,7 +550,7 @@ input[type='range']::-webkit-slider-thumb{
 }
 input[type='range']:active::-webkit-slider-thumb{
     background: #D7D7D7;
-}
+}*/
 
 
 /*input[type='range'],
